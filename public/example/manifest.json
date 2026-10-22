@@ -1,0 +1,339 @@
+{
+  "title": "ED: Order a CBC and disposition a patient",
+  "description": "Synthetic EHR walkthrough: open a patient chart, go to Workup, use the order composer to order a STAT CBC, then complete the disposition. All patient data is fictional.",
+  "screens": [
+    {
+      "key": "board",
+      "name": "Track Board",
+      "file": "01-board.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Open the chart for Alex Testpatient (Room 12, chest pain).",
+      "hotspots": [
+        {
+          "name": "Alex Testpatient row",
+          "outcome": "correct",
+          "action": "navigate",
+          "target": "summary",
+          "tooltip": "Double-click a row to open the chart",
+          "x": 1.6,
+          "y": 20.05,
+          "w": 96.81,
+          "h": 5
+        },
+        {
+          "name": "Wrong patient (Sample)",
+          "outcome": "incorrect",
+          "action": "navigate",
+          "target": "wrongchart",
+          "silent": true,
+          "feedback": "Opened the wrong patient’s chart.",
+          "x": 1.6,
+          "y": 15.05,
+          "w": 96.81,
+          "h": 5
+        },
+        {
+          "name": "Wrong patient (Mock)",
+          "outcome": "incorrect",
+          "action": "none",
+          "feedback": "That is a different patient. Alex Testpatient is in Room 12.",
+          "x": 1.6,
+          "y": 30.05,
+          "w": 96.81,
+          "h": 5
+        }
+      ]
+    },
+    {
+      "key": "summary",
+      "name": "Chart — Summary",
+      "file": "02-summary.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Labs are ordered from the Workup activity. Click Workup.",
+      "hotspots": [
+        {
+          "name": "Workup tab",
+          "outcome": "correct",
+          "action": "navigate",
+          "target": "workup",
+          "x": 0,
+          "y": 22.35,
+          "w": 12.43,
+          "h": 4.62
+        },
+        {
+          "name": "Results tab",
+          "outcome": "incorrect",
+          "action": "none",
+          "feedback": "Results shows completed tests. New orders are placed from Workup.",
+          "x": 0,
+          "y": 26.98,
+          "w": 12.43,
+          "h": 4.62
+        }
+      ]
+    },
+    {
+      "key": "workup",
+      "name": "Workup",
+      "file": "03-workup.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Open the order composer by clicking “+ New Order”.",
+      "hotspots": [
+        {
+          "name": "New Order button",
+          "outcome": "correct",
+          "action": "navigate",
+          "target": "composer",
+          "x": 15.21,
+          "y": 26.51,
+          "w": 7.71,
+          "h": 4.02
+        },
+        {
+          "name": "Order Sets",
+          "outcome": "incorrect",
+          "action": "none",
+          "feedback": "Order sets bundle many orders. For a single lab, use + New Order.",
+          "x": 23.17,
+          "y": 26.51,
+          "w": 6.98,
+          "h": 4.02
+        }
+      ]
+    },
+    {
+      "key": "composer",
+      "name": "Order Composer — Search",
+      "file": "04-composer.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Search for “CBC” and select CBC with Differential.",
+      "hotspots": [
+        {
+          "name": "Order search",
+          "kind": "search",
+          "outcome": "correct",
+          "action": "navigate",
+          "target": "detail",
+          "placeholder": "Search…",
+          "searchTerms": [
+            "cbc",
+            "complete blood count",
+            "blood count"
+          ],
+          "searchResults": [
+            {
+              "id": "r1",
+              "label": "CBC with Differential",
+              "detail": "Lab · Blood"
+            },
+            {
+              "id": "r2",
+              "label": "CBC without Differential",
+              "detail": "Lab · Blood"
+            },
+            {
+              "id": "r3",
+              "label": "Blood Culture",
+              "detail": "Lab · Microbiology"
+            }
+          ],
+          "correctResultId": "r1",
+          "x": 26.11,
+          "y": 22.53,
+          "w": 47.78,
+          "h": 3.78
+        },
+        {
+          "name": "Cancel",
+          "outcome": "incorrect",
+          "action": "none",
+          "feedback": "Cancel closes the composer without ordering anything.",
+          "x": 68.29,
+          "y": 69.31,
+          "w": 5.32,
+          "h": 4.02
+        }
+      ]
+    },
+    {
+      "key": "detail",
+      "name": "Order Composer — Details",
+      "file": "05-detail.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Set the priority, then sign the order.",
+      "hotspots": [
+        {
+          "name": "Priority",
+          "kind": "dropdown",
+          "outcome": "correct",
+          "action": "none",
+          "options": [
+            "Routine",
+            "STAT",
+            "Timed"
+          ],
+          "correctOption": "STAT",
+          "instruction": "Set Priority to STAT for this chest-pain patient.",
+          "x": 26.11,
+          "y": 22.53,
+          "w": 23.4,
+          "h": 3.78
+        },
+        {
+          "name": "Sign Order",
+          "outcome": "correct",
+          "action": "navigate",
+          "target": "signed",
+          "instruction": "Click Sign Order.",
+          "feedback": "Order signed.",
+          "x": 66.58,
+          "y": 69.31,
+          "w": 7.03,
+          "h": 4.02
+        },
+        {
+          "name": "Remove",
+          "outcome": "incorrect",
+          "action": "none",
+          "feedback": "Remove would discard this order.",
+          "x": 60.02,
+          "y": 69.31,
+          "w": 5.87,
+          "h": 4.02
+        }
+      ]
+    },
+    {
+      "key": "signed",
+      "name": "Workup — Order Signed",
+      "file": "06-signed.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "The CBC is signed. Now go to Disposition.",
+      "hotspots": [
+        {
+          "name": "Disposition tab",
+          "outcome": "correct",
+          "action": "navigate",
+          "target": "dispo",
+          "x": 0,
+          "y": 36.22,
+          "w": 12.43,
+          "h": 4.62
+        }
+      ]
+    },
+    {
+      "key": "dispo",
+      "name": "Disposition",
+      "file": "07-dispo.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Complete the disposition.",
+      "hotspots": [
+        {
+          "name": "Clinical impression",
+          "kind": "text",
+          "outcome": "correct",
+          "action": "none",
+          "answers": [
+            "Chest pain",
+            "Chest pain, unspecified",
+            "Atypical chest pain"
+          ],
+          "placeholder": "Type and press Enter",
+          "instruction": "Type the clinical impression “Chest pain” and press Enter.",
+          "x": 15.21,
+          "y": 22.22,
+          "w": 50.42,
+          "h": 3.78
+        },
+        {
+          "name": "Disposition",
+          "kind": "dropdown",
+          "outcome": "correct",
+          "action": "none",
+          "options": [
+            "Discharge",
+            "Admit",
+            "Observation",
+            "Transfer"
+          ],
+          "correctOption": "Discharge",
+          "instruction": "Choose Discharge.",
+          "x": 15.21,
+          "y": 30.2,
+          "w": 22.22,
+          "h": 3.78
+        },
+        {
+          "name": "Accept Disposition",
+          "outcome": "correct",
+          "action": "navigate",
+          "target": "confirm",
+          "instruction": "Click Accept Disposition.",
+          "x": 15.21,
+          "y": 44.18,
+          "w": 10.54,
+          "h": 4.02
+        }
+      ]
+    },
+    {
+      "key": "confirm",
+      "name": "Confirm Disposition",
+      "file": "08-confirm.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Confirm the disposition to finish.",
+      "hotspots": [
+        {
+          "name": "Confirm",
+          "outcome": "correct",
+          "action": "finish",
+          "feedback": "Disposition complete. Nice work!",
+          "x": 60.15,
+          "y": 50.42,
+          "w": 5.82,
+          "h": 4.02
+        },
+        {
+          "name": "Cancel",
+          "outcome": "incorrect",
+          "action": "none",
+          "feedback": "Cancel returns without completing the disposition.",
+          "x": 54.13,
+          "y": 50.42,
+          "w": 5.32,
+          "h": 4.02
+        }
+      ]
+    },
+    {
+      "key": "wrongchart",
+      "name": "Wrong patient’s chart (mistake)",
+      "file": "09-wrongchart.png",
+      "width": 1440,
+      "height": 900,
+      "instruction": "Check the patient banner — is this the right patient?",
+      "hotspots": [
+        {
+          "name": "Back to Track Board",
+          "outcome": "alternative",
+          "action": "navigate",
+          "target": "board",
+          "x": 21.12,
+          "y": 1.43,
+          "w": 4.88,
+          "h": 2.02
+        }
+      ]
+    }
+  ]
+}
